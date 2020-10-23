@@ -2,6 +2,7 @@ package pl.deska.springbootshoponline.service;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
+import pl.deska.springbootshoponline.model.Basket;
 import pl.deska.springbootshoponline.model.Product;
 
 import java.math.BigDecimal;
@@ -14,6 +15,14 @@ public class ShopService {
     private BigDecimal discount;
     private BigDecimal vat;
 
+    public void setBasketValue(Basket basket) {
+        BigDecimal basketValue = new BigDecimal(0);
+        for (int i = 0; i < basket.getProducts().size(); i++) {
+            BigDecimal productPrice = basket.getProducts().get(i).getPrice();
+            basketValue = basketValue.add(productPrice);
+        }
+        basket.setValue(basketValue);
+    }
 
     public void updatePrice(List<Product> basket){
         basket.forEach(product -> {
@@ -32,11 +41,11 @@ public class ShopService {
     private void updatePriceByDiscount(Product product) {
         if(discount != null){
             BigDecimal priceBeforeDiscount = product.getPrice();
-            product.setPrice(priceBeforeDiscount.subtract(discountInPercentage()));
+            product.setPrice(priceBeforeDiscount.subtract(priceWithDiscountInPercetnage()));
         }
     }
 
-    private BigDecimal discountInPercentage() {
+    private BigDecimal priceWithDiscountInPercetnage() {
         BigDecimal fullPrice = BigDecimal.valueOf(1);
         return fullPrice.subtract(discount);
     }

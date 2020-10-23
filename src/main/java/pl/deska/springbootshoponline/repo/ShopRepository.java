@@ -28,6 +28,7 @@ public class ShopRepository {
         return basket;
     }
 
+
     public void add(Product product){
         basket.setValue(basket.getValue().add(product.getPrice()));
         basket.getProducts().add(product);
@@ -41,7 +42,7 @@ public class ShopRepository {
         basket.getProducts().add(new Product("HDMI cable", getRandomProductPrice()));
         basket.getProducts().add(new Product("USB adapter", getRandomProductPrice()));
           shopService.updatePrice(basket.getProducts());
-          setBasketValue();
+          shopService.setBasketValue(basket);
     }
 
     private BigDecimal getRandomProductPrice() {
@@ -51,12 +52,5 @@ public class ShopRepository {
     }
 
 
-    private void setBasketValue() {
-        BigDecimal basketValue = new BigDecimal(0);
-        for (int i = 0; i < basket.getProducts().size(); i++) {
-            BigDecimal productPrice = basket.getProducts().get(i).getPrice();
-            basketValue = basketValue.add(productPrice);
-        }
-        basket.setValue(basketValue);
-    }
+
 }

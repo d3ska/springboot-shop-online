@@ -7,7 +7,7 @@ import pl.deska.springbootshoponline.model.Basket;
 import pl.deska.springbootshoponline.model.Product;
 
 @RestController
-@RequestMapping("/shop/basket")
+@RequestMapping("/api/products")
 public class ShopApi {
 
     private ShopManager shopManager;

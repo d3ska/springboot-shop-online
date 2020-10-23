@@ -20,8 +20,7 @@ public class ShopManager {
     }
 
     public Basket findAll() {
-        Basket basket = shopRepository.findAll();
-        return basket;
+        return shopRepository.findAll();
     }
 
     public void add(Product product) {
