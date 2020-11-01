@@ -1,31 +1,33 @@
 package pl.deska.springbootshoponline.service;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import pl.deska.springbootshoponline.model.Basket;
 import pl.deska.springbootshoponline.model.Product;
+import pl.deska.springbootshoponline.repo.ShopRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
 @ConfigurationProperties(prefix = "package-status")
-public class ShopService {
+public class PriceService {
 
     private BigDecimal discount;
     private BigDecimal vat;
 
     public void setBasketValue(Basket basket) {
-        BigDecimal basketValue = new BigDecimal(0);
-        for (int i = 0; i < basket.getProducts().size(); i++) {
-            BigDecimal productPrice = basket.getProducts().get(i).getPrice();
-            basketValue = basketValue.add(productPrice);
+        BigDecimal sum = BigDecimal.ZERO;
+        for (Product product : basket.getProducts()) {
+            sum = sum.add(product.getPrice());
         }
-        basket.setValue(basketValue);
+        basket.setValue(sum);
     }
 
-    public void updatePrice(List<Product> basket){
-        basket.forEach(product -> {
+    public void updatePrice(Basket basket){
+        basket.getProducts().forEach(product -> {
             includeVatTax(product);
             updatePriceByDiscount(product);
         });
@@ -48,23 +50,6 @@ public class ShopService {
     private BigDecimal priceWithDiscountInPercetnage() {
         BigDecimal fullPrice = BigDecimal.valueOf(1);
         return fullPrice.subtract(discount);
-    }
-
-
-    public BigDecimal getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
-    }
-
-    public BigDecimal getVat() {
-        return vat;
-    }
-
-    public void setVat(BigDecimal vat) {
-        this.vat = vat;
     }
 
 

@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import pl.deska.springbootshoponline.manager.ShopManager;
 import pl.deska.springbootshoponline.model.Basket;
 import pl.deska.springbootshoponline.model.Product;
+import pl.deska.springbootshoponline.repo.ShopRepository;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -19,11 +22,11 @@ public class ShopApi {
 
     @GetMapping("/all")
     public Basket findAll(){
-        return shopManager.findAll();
+        return shopManager.getBasket();
     }
 
     @PostMapping
     public void add(@RequestBody Product product){
-        shopManager.add(product);
+            shopManager.add(product);
     }
 }

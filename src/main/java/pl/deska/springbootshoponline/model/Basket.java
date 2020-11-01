@@ -17,17 +17,26 @@ public class Basket {
         return products;
     }
 
-    public void setBasket(List<Product> basket) {
-        this.products = basket;
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
 
     public void setValue(BigDecimal value) {
         this.value = value;
     }
 
 
+    public void addProduct(Product product){
+        products.add(product);
+    }
+
+    public void updateBasketValue(BigDecimal productPrice){
+        value.add(productPrice);
+    }
+
+    @Override
+    public String toString() {
+        return "Basket{" +
+                "products=" + products +
+                ", value=" + value +
+                '}';
+
+    }
 }
